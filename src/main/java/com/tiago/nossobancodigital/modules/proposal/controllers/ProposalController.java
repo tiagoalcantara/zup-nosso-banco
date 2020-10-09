@@ -136,6 +136,7 @@ public class ProposalController {
   @PostMapping("step-four")
   public void stepFour(@RequestBody @Valid StepFourDTO request, @RequestParam String id){
     try {
+      System.out.println(request.isAccepted());
       acceptOrRefuseProposal.execute(id, request.isAccepted());
     } catch (AppException e) {
       throw new ResponseStatusException(e.getStatus(), e.getMessage(), e);
