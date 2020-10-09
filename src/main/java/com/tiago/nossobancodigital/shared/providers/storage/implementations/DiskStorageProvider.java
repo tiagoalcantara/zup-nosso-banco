@@ -15,8 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 public class DiskStorageProvider implements IStorageProvider {
 
   public String save(MultipartFile file) {
+    String generatedFileName = String.format("%s-%s", UUID.randomUUID(), file.getOriginalFilename());
     Path dirPath = Paths.get("tmp", "uploads");
-    Path filePath = dirPath.resolve(String.format("%s-%s", UUID.randomUUID(), file.getOriginalFilename()));
+    Path filePath = dirPath.resolve(generatedFileName);
 
     System.out.println(filePath.toAbsolutePath().toString());
     
@@ -27,6 +28,6 @@ public class DiskStorageProvider implements IStorageProvider {
       throw new RuntimeException("Could not upload file");
     }
 
-    return filePath.toString();
+    return String.format("http://localhost:4000/files/images/%s", generatedFileName);
   }
 }

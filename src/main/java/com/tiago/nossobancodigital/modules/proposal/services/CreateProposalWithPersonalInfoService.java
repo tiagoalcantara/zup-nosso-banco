@@ -6,10 +6,10 @@ import com.tiago.nossobancodigital.modules.proposal.repositories.ProposalReposit
 import org.springframework.stereotype.Service;
 
 @Service
-public class AccomplishStepOneService {
+public class CreateProposalWithPersonalInfoService {
   private final ProposalRepository proposalRepository;
 
-  public AccomplishStepOneService(ProposalRepository proposalRepository) {
+  public CreateProposalWithPersonalInfoService(ProposalRepository proposalRepository) {
     this.proposalRepository = proposalRepository;
   }
 

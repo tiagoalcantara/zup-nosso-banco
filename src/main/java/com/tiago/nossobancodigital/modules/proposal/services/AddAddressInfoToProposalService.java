@@ -9,10 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AccomplishStepTwoService {
+public class AddAddressInfoToProposalService {
   private final ProposalRepository proposalRepository;
 
-  public AccomplishStepTwoService(ProposalRepository proposalRepository) {
+  public AddAddressInfoToProposalService(ProposalRepository proposalRepository) {
     this.proposalRepository = proposalRepository;
   }
 

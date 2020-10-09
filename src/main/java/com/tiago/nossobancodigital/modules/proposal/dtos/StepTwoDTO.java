@@ -9,9 +9,11 @@ import com.tiago.nossobancodigital.shared.enums.Step;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class StepTwoDTO {
   @NotNull(message = "Missing required field: id")
   private String id;

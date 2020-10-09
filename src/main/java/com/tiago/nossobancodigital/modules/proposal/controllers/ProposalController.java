@@ -5,12 +5,15 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.tiago.nossobancodigital.modules.proposal.dtos.StepFourDTO;
 import com.tiago.nossobancodigital.modules.proposal.dtos.StepOneDTO;
 import com.tiago.nossobancodigital.modules.proposal.dtos.StepTwoDTO;
 import com.tiago.nossobancodigital.modules.proposal.models.Proposal;
-import com.tiago.nossobancodigital.modules.proposal.services.AccomplishStepOneService;
-import com.tiago.nossobancodigital.modules.proposal.services.AccomplishStepTwoService;
+import com.tiago.nossobancodigital.modules.proposal.services.CreateProposalWithPersonalInfoService;
+import com.tiago.nossobancodigital.modules.proposal.services.AcceptOrRefuseProposalService;
+import com.tiago.nossobancodigital.modules.proposal.services.AddAddressInfoToProposalService;
 import com.tiago.nossobancodigital.modules.proposal.services.ListAllProposalsService;
+import com.tiago.nossobancodigital.modules.proposal.services.ListProposalService;
 import com.tiago.nossobancodigital.modules.proposal.services.UploadDocumentImagesService;
 import com.tiago.nossobancodigital.shared.errors.AppException;
 
@@ -18,6 +21,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,20 +35,26 @@ import org.springframework.web.server.ResponseStatusException;
 public class ProposalController {
 
   private final ListAllProposalsService listAllProposals;
-  private final AccomplishStepOneService accomplishStepOne;
-  private final AccomplishStepTwoService accomplishStepTwo;
+  private final CreateProposalWithPersonalInfoService createProposalWithPersonalInfo;
+  private final AddAddressInfoToProposalService addAddressInfoToProposal;
   private final UploadDocumentImagesService uploadDocumentImages;
+  private final ListProposalService listProposal;
+  private final AcceptOrRefuseProposalService acceptOrRefuseProposal;
   
   public ProposalController(
-    AccomplishStepOneService accomplishStepOne,
+    CreateProposalWithPersonalInfoService createProposalWithPersonalInfo,
     ListAllProposalsService listAllProposals,
-    AccomplishStepTwoService accomplishStepTwo,
-    UploadDocumentImagesService uploadDocumentImages
+    AddAddressInfoToProposalService addAddressInfoToProposal,
+    UploadDocumentImagesService uploadDocumentImages,
+    ListProposalService listProposal,
+    AcceptOrRefuseProposalService acceptOrRefuseProposal
     ) {
-    this.accomplishStepOne = accomplishStepOne;
+    this.createProposalWithPersonalInfo = createProposalWithPersonalInfo;
     this.listAllProposals = listAllProposals;
-    this.accomplishStepTwo = accomplishStepTwo;
+    this.addAddressInfoToProposal = addAddressInfoToProposal;
     this.uploadDocumentImages = uploadDocumentImages;
+    this.listProposal = listProposal;
+    this.acceptOrRefuseProposal = acceptOrRefuseProposal;
   }
 
   @GetMapping
@@ -56,11 +66,24 @@ public class ProposalController {
     }
   }
 
+  @GetMapping("/{id}")
+  public ResponseEntity<Proposal> show(@PathVariable String id){
+    try {
+      Proposal proposal = listProposal.execute(id);
+
+      return ResponseEntity.ok().body(proposal);
+    } catch (AppException e) {
+      throw new ResponseStatusException(e.getStatus(), e.getMessage(), e);
+    } catch (Exception e) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
+    }
+  }
+
   @PostMapping("step-one")
   public ResponseEntity<Proposal> stepOne(@RequestBody @Valid StepOneDTO proposalAsDto) {
    try {
     Proposal proposalAsEntity = proposalAsDto.toEntity();
-    Proposal proposal = accomplishStepOne.execute(proposalAsEntity);
+    Proposal proposal = createProposalWithPersonalInfo.execute(proposalAsEntity);
 
     URI location = new URI(String.format("http://localhost:3000/cadastro/segunda-etapa?proposal=%s", proposal.getId()));
     HttpHeaders responseHeaders = new HttpHeaders();
@@ -76,7 +99,7 @@ public class ProposalController {
   public ResponseEntity<Proposal> stepTwo(@RequestBody @Valid StepTwoDTO proposalAsDTO) {
     try {
       Proposal proposalAsEntity = proposalAsDTO.toEntity();
-      Proposal proposal = accomplishStepTwo.execute(proposalAsEntity);
+      Proposal proposal = addAddressInfoToProposal.execute(proposalAsEntity);
 
       URI location = new URI(String.format("http://localhost:3000/cadastro/terceira-etapa?proposal=%s", proposal.getId()));
       HttpHeaders responseHeaders = new HttpHeaders();
@@ -108,5 +131,16 @@ public class ProposalController {
       } catch (Exception e) {
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
       }
+  }
+
+  @PostMapping("step-four")
+  public void stepFour(@RequestBody @Valid StepFourDTO request, @RequestParam String id){
+    try {
+      acceptOrRefuseProposal.execute(id, request.isAccepted());
+    } catch (AppException e) {
+      throw new ResponseStatusException(e.getStatus(), e.getMessage(), e);
+    } catch (Exception e) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
+    }
   }
 }

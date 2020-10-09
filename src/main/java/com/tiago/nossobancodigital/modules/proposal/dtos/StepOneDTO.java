@@ -11,8 +11,10 @@ import com.tiago.nossobancodigital.shared.enums.Step;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class StepOneDTO {
   @NotNull(message = "Missing required field: firstName")
