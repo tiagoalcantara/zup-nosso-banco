@@ -22,6 +22,7 @@ public class DiskStorageProvider implements IStorageProvider {
     System.out.println(filePath.toAbsolutePath().toString());
     
     try {
+      Files.createDirectories(dirPath);
       byte[] fileBytes = file.getBytes();
       Files.write(filePath, fileBytes);
     } catch (IOException e) {

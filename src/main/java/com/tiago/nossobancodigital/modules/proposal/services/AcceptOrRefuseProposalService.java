@@ -34,14 +34,14 @@ public class AcceptOrRefuseProposalService {
 
     if(accept){
       findProposal.setCurrentStep(Step.ACCEPTED_PROPOSAL_PENDING);
-      mailProvider.send(
+      this.mailProvider.send(
         "teste@testando.com.br", 
         "[Nosso Banco] Confirmação", 
         "Obrigado por acreditar no Nosso Banco! :)\n" +
         "Sua conta será gerada e você receberá um e-mail com os dados de acesso em alguns minutos, aguarde.");
     } else {
       findProposal.setCurrentStep(Step.REJECTED_PROPOSAL);
-      mailProvider.send(
+      this.mailProvider.send(
         "teste@testando.com.br", 
         "[Nosso Banco] Confirmação", 
         "Vi aqui que você recusou a proposta, tem algo que posso fazer por você?");

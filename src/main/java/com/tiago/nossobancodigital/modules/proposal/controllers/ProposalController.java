@@ -66,7 +66,7 @@ public class ProposalController {
     }
   }
 
-  @GetMapping("/{id}")
+  @GetMapping("{id}")
   public ResponseEntity<Proposal> show(@PathVariable String id){
     try {
       Proposal proposal = listProposal.execute(id);
@@ -90,9 +90,9 @@ public class ProposalController {
     responseHeaders.setLocation(location);
 
     return new ResponseEntity<Proposal>(proposal, responseHeaders, HttpStatus.CREATED);
-   } catch (Exception e) {
-     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
-   }
+  } catch (Exception e) {
+    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
+  }
   }
 
   @PostMapping("step-two")
@@ -136,7 +136,6 @@ public class ProposalController {
   @PostMapping("step-four")
   public void stepFour(@RequestBody @Valid StepFourDTO request, @RequestParam String id){
     try {
-      System.out.println(request.isAccepted());
       acceptOrRefuseProposal.execute(id, request.isAccepted());
     } catch (AppException e) {
       throw new ResponseStatusException(e.getStatus(), e.getMessage(), e);

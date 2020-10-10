@@ -12,6 +12,7 @@ import javax.persistence.TemporalType;
 
 import com.tiago.nossobancodigital.shared.enums.Step;
 
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.GenericGenerator;
 
 import lombok.AllArgsConstructor;
@@ -19,6 +20,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@DynamicInsert
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
