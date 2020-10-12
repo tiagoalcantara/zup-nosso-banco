@@ -15,9 +15,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StepTwoDTO {
-  @NotNull(message = "Missing required field: id")
-  private String id;
-
   @NotNull(message = "Missing required field: cep")
   @Pattern(regexp = "^\\d{5}\\-\\d{3}$", message = "Invalid cep format")
   private String cep;

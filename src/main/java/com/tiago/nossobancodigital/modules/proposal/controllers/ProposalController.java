@@ -96,7 +96,7 @@ public class ProposalController {
   }
 
   @PostMapping("step-two")
-  public ResponseEntity<Proposal> stepTwo(@RequestBody @Valid StepTwoDTO proposalAsDTO) {
+  public ResponseEntity<Proposal> stepTwo(@RequestParam String id, @RequestBody @Valid StepTwoDTO proposalAsDTO) {
     try {
       Proposal proposalAsEntity = proposalAsDTO.toEntity();
       Proposal proposal = addAddressInfoToProposal.execute(proposalAsEntity);
