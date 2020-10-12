@@ -49,6 +49,7 @@ public class StepOneDTO {
       null, 
       null, 
       null, 
-      Step.STEP_ONE_COMPLETE);
+      Step.STEP_ONE_COMPLETE,
+      null);
   }
 }

@@ -7,6 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProposalRepository extends JpaRepository<Proposal, String> {
-  Proposal findByEmail(String email);
-  Proposal findByCpf(String cpf);
+  public Proposal findFirst1ByCpfAndEmail(String cpf, String email);
 }

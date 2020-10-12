@@ -7,9 +7,12 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tiago.nossobancodigital.modules.account.models.Account;
 import com.tiago.nossobancodigital.shared.enums.Step;
 
 import org.hibernate.annotations.DynamicInsert;
@@ -60,4 +63,8 @@ public class Proposal {
 
   @Column(name = "current_step", nullable=false)
   private Step currentStep = Step.STEP_ONE_COMPLETE;
+
+  @OneToOne(mappedBy = "proposal")
+  @JsonIgnore
+  private Account account;
 }

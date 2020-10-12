@@ -48,6 +48,7 @@ public class StepTwoDTO {
       new Address(cep, street, neighborhood, complement, city, province), 
       null, 
       null, 
-      Step.STEP_TWO_COMPLETE);
+      Step.STEP_TWO_COMPLETE,
+      null);
   }
 }
