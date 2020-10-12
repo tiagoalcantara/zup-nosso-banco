@@ -30,8 +30,6 @@ public class AcceptOrRefuseProposalService {
       throw new AppException(HttpStatus.UNPROCESSABLE_ENTITY, "Ineligible for completing this step");
     }
 
-    System.out.println(accept);
-
     if(accept){
       findProposal.setCurrentStep(Step.ACCEPTED_PROPOSAL_PENDING);
       this.mailProvider.send(

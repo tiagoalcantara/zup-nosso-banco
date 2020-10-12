@@ -18,8 +18,6 @@ public class DiskStorageProvider implements IStorageProvider {
     String generatedFileName = String.format("%s-%s", UUID.randomUUID(), file.getOriginalFilename());
     Path dirPath = Paths.get("tmp", "uploads");
     Path filePath = dirPath.resolve(generatedFileName);
-
-    System.out.println(filePath.toAbsolutePath().toString());
     
     try {
       Files.createDirectories(dirPath);

@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tiago.nossobancodigital.modules.proposal.models.Proposal;
 
 import org.hibernate.annotations.DynamicInsert;
@@ -42,6 +43,7 @@ public class Account {
   @Column(columnDefinition = "Decimal(10,2) default 0")
   private BigDecimal balance;
 
+  @JsonIgnore
   private String password;
 
   @OneToOne(cascade = CascadeType.ALL)
