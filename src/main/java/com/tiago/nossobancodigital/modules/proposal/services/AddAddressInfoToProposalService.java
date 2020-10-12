@@ -16,9 +16,9 @@ public class AddAddressInfoToProposalService {
     this.proposalRepository = proposalRepository;
   }
 
-  public Proposal execute(Proposal proposal) throws Exception {
+  public Proposal execute(Proposal proposal, String id) throws Exception {
     Proposal findProposal = this.proposalRepository
-      .findById(proposal.getId())
+      .findById(id)
       .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND, "Could not find a proposal with such id"));
 
     if(findProposal.getCurrentStep() != Step.STEP_ONE_COMPLETE) {

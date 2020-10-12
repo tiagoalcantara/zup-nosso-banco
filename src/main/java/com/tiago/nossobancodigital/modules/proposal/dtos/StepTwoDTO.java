@@ -35,7 +35,7 @@ public class StepTwoDTO {
 
   public Proposal toEntity(){
     return new Proposal(
-      id, 
+      null, 
       null, 
       null, 
       null, 

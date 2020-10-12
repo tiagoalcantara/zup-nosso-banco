@@ -99,7 +99,7 @@ public class ProposalController {
   public ResponseEntity<Proposal> stepTwo(@RequestParam String id, @RequestBody @Valid StepTwoDTO proposalAsDTO) {
     try {
       Proposal proposalAsEntity = proposalAsDTO.toEntity();
-      Proposal proposal = addAddressInfoToProposal.execute(proposalAsEntity);
+      Proposal proposal = addAddressInfoToProposal.execute(proposalAsEntity, id);
 
       URI location = new URI(String.format("http://localhost:3000/cadastro/terceira-etapa?proposal=%s", proposal.getId()));
       HttpHeaders responseHeaders = new HttpHeaders();
